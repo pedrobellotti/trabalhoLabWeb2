@@ -35,46 +35,45 @@ p{
   background-image: url(Imagens/areia.png);
 }
 .barqueiro{
-  background-color: brown;
   width: 20px;
   height: 20px;
-  border: 1px solid black;
   line-height: 20px;
   text-align: center;
   position: absolute;
   left: 100px;
   top: 150px;
+  background:transparent;
 }
 .raposa{
   width: 20px;
   height: 20px;
-  border: 1px solid black;
   line-height: 20px;
   text-align: center;
   position: absolute;
   left: 75px;
   top: 120px;
+  background:transparent;
 }
 .galinha{
   width: 20px;
   height: 20px;
-  border: 1px solid black;
   line-height: 20px;
   text-align: center;
   position: absolute;
   left: 75px;
   top: 150px;
+  background:transparent;
 }
 .milho{
   background-color: yellow;
   width: 20px;
   height: 20px;
-  border: 1px solid black;
   line-height: 20px;
   text-align: center;
   position: absolute;
   left: 75px;
   top: 180px;
+  background:transparent;
 }
 .estatisticas>p{
   text-align: left;

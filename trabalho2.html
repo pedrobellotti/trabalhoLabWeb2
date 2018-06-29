@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Trabalho 2</title>
+    <link rel="stylesheet" href="estiloTrabalho2.css" />
+  </head>
+  <body>
+    <div class="jogo">
+      <div class="lado1">
+        <p>LADO 1</p>
+      </div>
+      <div class="rio">
+        <p>RIO</p>
+        <p id="textoEstado">Você perdeu!</p>
+        <button type="button" name="button" id="iniciar">Iniciar jogo</button>
+      </div>
+      <div class="lado2">
+        <p>LADO 2</p>
+      </div>
+      <div class="barqueiro"><img src="Imagens/barco.png"></div>
+      <div class="galinha"><img src="Imagens/galinha.png"></div>
+      <div class="milho"><img src="Imagens/milho.png"></div>
+      <div class="raposa"><img src="Imagens/raposa.png"></div>
+    </div>
+    <div class="estatisticas">
+      <p>Número de movimentos: <span id="numeroMovimentos">0</span></p>
+      <p>Melhor pontuação: <span id="melhorPontuacao">0</span></p>
+      <p><a href="comojogar.html">Como jogar?</a></p>
+    </div>
+  </body>
+  <script type="text/javascript">
+    //Elementos do jogo
+    var barco = document.querySelector(".barqueiro");
+    var galinha = document.querySelector(".galinha");
+    var milho = document.querySelector(".milho");
+    var raposa = document.querySelector(".raposa");
+    var inicio = document.querySelector(".lado1");
+    var final = document.querySelector(".lado2");
+
+    //Estatisticas
+    var movimentos = 0;
+    var pontuacaoMaxima = 100;
+    var pontuacao = document.querySelector("#numeroMovimentos");
+    var highscore = document.querySelector("#melhorPontuacao");
+
+    //Reinicia estatisticas para comecar um novo jogo
+    function reiniciaEstatisticas(){
+      var movimentos = 0;
+      var pontuacaoMaxima = 100;
+      atualizaPontuacao();
+    }
+    //Atualiza pontos
+    function atualizaPontuacao(){
+      pontuacao.textContent = movimentos;
+      if(movimentos < pontuacaoMaxima && ganhou){
+        pontuacaoMaxima = movimentos;
+        highscore.textContent = pontuacaoMaxima;
+      }
+    }
+
+    //Elementos de controle
+    var ganhou = false;
+    var jogoValendo = false;
+    var mostrarEstado = document.querySelector("#textoEstado");
+    mostrarEstado.style.display = "none";
+    var botaoIniciar = document.querySelector("#iniciar");
+    botaoIniciar.addEventListener("click", iniciarJogo);
+
+    //Controlando o jogo
+    function iniciarJogo(){
+      jogoValendo = true;
+      botaoIniciar.disabled = true;
+      botaoIniciar.style.display = "none";
+      mostrarEstado.style.display = "none";
+      reiniciarBarco();
+      reiniciarPosicao(galinha);
+      reiniciarPosicao(milho);
+      reiniciarPosicao(raposa);
+      //Colocando todos os elementos no inicio (lado1)
+      inicio.appendChild(barco);
+      inicio.appendChild(galinha);
+      inicio.appendChild(milho);
+      inicio.appendChild(raposa);
+    }
+    function reiniciarJogo(){
+      jogoValendo = false;
+      botaoIniciar.innerHTML = "Reiniciar jogo";
+      botaoIniciar.disabled = false;
+      botaoIniciar.style.display = "";
+    }
+    function mostraResultado(){
+      mostrarEstado.style.display = "";
+      if(ganhou){
+        mostrarEstado.innerHTML = "Você venceu!";
+        mostrarEstado.style.color = "green";
+        reiniciarJogo();
+      }
+      else{
+        mostrarEstado.innerHTML = "Você perdeu!";
+        mostrarEstado.style.color = "red";
+        reiniciarJogo();
+      }
+    }
+
+    //Movendo os elementos
+    window.addEventListener('keydown', teclaPressionada);
+    function teclaPressionada(e){
+      if(jogoValendo){
+          switch (e.keyCode) {
+            case 66:
+              //Barco (b)
+              moveBarco();
+              movimentos++;
+              atualizaJogo();
+              break;
+            case 71:
+              //Galinha (g)
+              if(galinha.parentNode == barco.parentNode){
+                if (galinha.parentNode == inicio){
+                  inicio.removeChild(galinha);
+                  final.appendChild(galinha);
+                  moveElemento(galinha);
+                  movimentos++;
+                  atualizaJogo();
+                }
+                else if (galinha.parentNode == final){
+                  final.removeChild(galinha);
+                  inicio.appendChild(galinha);
+                  moveElemento(galinha);
+                  movimentos++;
+                  atualizaJogo();
+                }
+              }
+              else{console.log("O barco está na outra margem do rio!");}
+              break;
+            case 82:
+              //Raposa (r)
+              if(raposa.parentNode == barco.parentNode){
+                if (raposa.parentNode == inicio){
+                  inicio.removeChild(raposa);
+                  final.appendChild(raposa);
+                  moveElemento(raposa);
+                  movimentos++;
+                  atualizaJogo();
+                }
+                else if (raposa.parentNode == final){
+                  final.removeChild(raposa);
+                  inicio.appendChild(raposa);
+                  moveElemento(raposa);
+                  movimentos++;
+                  atualizaJogo();
+                }
+              }
+              else{console.log("O barco está na outra margem do rio!");}
+              break;
+            case 77:
+              //Milho (m)
+              if(milho.parentNode == barco.parentNode){
+                if (milho.parentNode == inicio){
+                  inicio.removeChild(milho);
+                  final.appendChild(milho);
+                  moveElemento(milho);
+                  movimentos++;
+                  atualizaJogo();
+                }
+                else if (milho.parentNode == final){
+                  final.removeChild(milho);
+                  inicio.appendChild(milho);
+                  moveElemento(milho);
+                  movimentos++;
+                  atualizaJogo();
+                }
+              }
+              else{console.log("O barco está na outra margem do rio!");}
+              break;
+          }
+        }
+        else{
+          console.log("Clique em Iniciar jogo!");
+        }
+      }
+
+      //Decide de move o elemento do inicio para o fim ou do fim para o inicio
+      function moveElemento(e){
+        if(e.parentNode == inicio){
+          moveInicio(e);
+          moveBarco();
+        }
+        else if(e.parentNode == final){
+          moveFim(e);
+          moveBarco();
+        }
+      }
+
+      //Move o barco
+      function moveBarco(){
+        var pos = 0;
+        var posFinal = 0;
+        var id = setInterval(frame, 5);
+        var direcao = 1; //1=inicio para fim, 0=fim para inicio
+        //Move para o fim
+        if(barco.parentNode == inicio)
+        {
+          pos = 100;
+          posFinal = 228;
+          direcao = 1;
+          inicio.removeChild(barco);
+          final.appendChild(barco);
+        }
+        //Move para o inicio
+        else if (barco.parentNode == final){
+          pos = 228;
+          posFinal = 100;
+          direcao = 0;
+          final.removeChild(barco);
+          inicio.appendChild(barco);
+        }
+        function frame() {
+          if (pos == posFinal) {
+              clearInterval(id);
+            } else {
+                if(direcao == 1){
+                  pos++;
+                }
+                if(direcao == 0){
+                  pos--;
+                }
+                barco.style.left = pos + 'px';
+                }
+            }
+      }
+
+      //Move o elemento do inicio para o fim
+      function moveFim(e){
+        var pos = 75;
+        var posFinal = 255;
+        var id = setInterval(frame, 5);
+        function frame() {
+          if (pos == posFinal) {
+              clearInterval(id);
+            } else {
+                pos++;
+                e.style.left = pos + 'px';
+                }
+            }
+      }
+
+      //Move o elemento do fim para o inicio
+      function moveInicio(e){
+        var pos = 255;
+        var posFinal = 75;
+        var id = setInterval(frame, 5);
+        function frame() {
+          if (pos == posFinal) {
+              clearInterval(id);
+            } else {
+                pos--;
+                e.style.left = pos + 'px';
+                }
+            }
+      }
+
+      //Move todos os elementos que estejam no final para inicio para comecar novo jogo
+      function reiniciarPosicao(e){
+        if(e.parentNode == final){
+          moveInicio(e);
+        }
+      }
+      function reiniciarBarco(){
+        if(barco.parentNode == final){
+          moveBarco();
+        }
+      }
+
+      //Atualiza todos os dados do jogo
+      function atualizaJogo(){
+        verificaEstado();
+        atualizaPontuacao();
+      }
+
+      //Checando estado do jogo
+      function verificaEstado(){
+        if(movimentos != 0){
+          if ((galinha.parentNode == raposa.parentNode || galinha.parentNode == milho.parentNode) && (barco.parentNode != galinha.parentNode)){
+            console.log("Game over");
+            ganhou = false;
+            mostraResultado();
+          }
+          if(galinha.parentNode == final && raposa.parentNode == final && milho.parentNode == final && barco.parentNode == final){
+            console.log("Você venceu!");
+            ganhou = true;
+            mostraResultado();
+          }
+        }
+      }
+  </script>
+</html>

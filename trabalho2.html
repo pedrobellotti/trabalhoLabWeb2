@@ -13,6 +13,7 @@
       <div class="rio">
         <p>RIO</p>
         <p id="textoEstado">Você perdeu!</p>
+        <p id="textoErro">O barco está no outro lado do rio!</p>
         <button type="button" name="button" id="iniciar">Iniciar jogo</button>
       </div>
       <div class="lado2">
@@ -44,10 +45,21 @@
     var pontuacao = document.querySelector("#numeroMovimentos");
     var highscore = document.querySelector("#melhorPontuacao");
 
+    //Elementos de controle
+    var ganhou = false;
+    var jogoValendo = false;
+    var mostrarEstado = document.querySelector("#textoEstado");
+    mostrarEstado.style.display = "none";
+    var mostrarErro = document.querySelector("#textoErro");
+    mostrarErro.style.display = "none";
+    var botaoIniciar = document.querySelector("#iniciar");
+    botaoIniciar.addEventListener("click", iniciarJogo);
+
     //Reinicia estatisticas para comecar um novo jogo
-    function reiniciaEstatisticas(){
-      var movimentos = 0;
-      var pontuacaoMaxima = 100;
+    function reiniciarEstatisticas(){
+      movimentos = 0;
+      pontuacaoMaxima = 100;
+      ganhou = false;
       atualizaPontuacao();
     }
     //Atualiza pontos
@@ -59,20 +71,13 @@
       }
     }
 
-    //Elementos de controle
-    var ganhou = false;
-    var jogoValendo = false;
-    var mostrarEstado = document.querySelector("#textoEstado");
-    mostrarEstado.style.display = "none";
-    var botaoIniciar = document.querySelector("#iniciar");
-    botaoIniciar.addEventListener("click", iniciarJogo);
-
     //Controlando o jogo
     function iniciarJogo(){
       jogoValendo = true;
       botaoIniciar.disabled = true;
       botaoIniciar.style.display = "none";
       mostrarEstado.style.display = "none";
+      reiniciarEstatisticas();
       reiniciarBarco();
       reiniciarPosicao(galinha);
       reiniciarPosicao(milho);
@@ -132,7 +137,7 @@
                   atualizaJogo();
                 }
               }
-              else{console.log("O barco está na outra margem do rio!");}
+              else{erroMover();}
               break;
             case 82:
               //Raposa (r)
@@ -152,7 +157,7 @@
                   atualizaJogo();
                 }
               }
-              else{console.log("O barco está na outra margem do rio!");}
+              else{erroMover();}
               break;
             case 77:
               //Milho (m)
@@ -172,7 +177,7 @@
                   atualizaJogo();
                 }
               }
-              else{console.log("O barco está na outra margem do rio!");}
+              else{erroMover();}
               break;
           }
         }
@@ -261,6 +266,12 @@
             }
       }
 
+      //Mostra o erro se o barco nao estiver na mesma margem do elemento
+      function erroMover(){
+        mostrarErro.style.display = "";
+        setTimeout(function(){ mostrarErro.style.display = "none" }, 1000);
+      }
+
       //Move todos os elementos que estejam no final para inicio para comecar novo jogo
       function reiniciarPosicao(e){
         if(e.parentNode == final){
@@ -281,7 +292,7 @@
 
       //Checando estado do jogo
       function verificaEstado(){
-        if(movimentos != 0){
+        if(jogoValendo){
           if ((galinha.parentNode == raposa.parentNode || galinha.parentNode == milho.parentNode) && (barco.parentNode != galinha.parentNode)){
             console.log("Game over");
             ganhou = false;

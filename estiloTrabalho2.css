@@ -1,3 +1,6 @@
+body{
+  font-family: "Times New Roman";
+}
 p{
   font-size: 20px;
   text-align: center;
@@ -86,4 +89,11 @@ p{
   position: absolute;
   top:185px;
   left:95px;
+}
+#textoErro{
+  color: #66ffff;
+  font-size: 20px;
+  position: absolute;
+  top:200px;
+  left:45px;
 }

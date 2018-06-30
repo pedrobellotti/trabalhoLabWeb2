@@ -1,8 +1,8 @@
 body{
-  font-family: "Times New Roman";
+  font-family: "Arial";
 }
 p{
-  font-size: 20px;
+  font-size: 16px;
   text-align: center;
   color: #fff;
   text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
@@ -22,14 +22,14 @@ p{
 }
 .rio{
   background-color: #1ca3ec;
-  float: left;
+  float: center;
   width: 150px;
   height: 300px;
   background-image: url(Imagens/agua.gif);
 }
 .lado2{
   background-color: #ffde78;
-  float: left;
+  float: right;
   width: 100px;
   height: 300px;
   background-image: url(Imagens/areia.png);
@@ -87,12 +87,22 @@ p{
   font-size: 30px;
   position: absolute;
   top:185px;
-  left:95px;
+  left:90px;
 }
 #textoErro{
   color: #66ffff;
   font-size: 20px;
   position: absolute;
   top:200px;
-  left:45px;
+  left:27px;
+}
+.estatisticas #nMov{
+  position: absolute;
+  top: 1px;
+  left: 252px;
+}
+.estatisticas #mPon{
+  position: absolute;
+  top: 1px;
+  left: 12px;
 }

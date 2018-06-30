@@ -7,27 +7,22 @@
   </head>
   <body>
     <div class="jogo">
-      <div class="lado1">
-        <p>LADO 1</p>
-      </div>
+      <div class="lado1"></div>
       <div class="rio">
-        <p>RIO</p>
         <p id="textoEstado">Você perdeu!</p>
         <p id="textoErro">O barco está no outro lado do rio!</p>
         <button type="button" name="button" id="iniciar">Iniciar jogo</button>
       </div>
-      <div class="lado2">
-        <p>LADO 2</p>
-      </div>
+      <div class="lado2"></div>
       <div class="barqueiro"><img src="Imagens/barco.png"></div>
       <div class="galinha"><img src="Imagens/galinha.png"></div>
       <div class="milho"><img src="Imagens/milho.png"></div>
       <div class="raposa"><img src="Imagens/raposa.png"></div>
     </div>
     <div class="estatisticas">
-      <p>Número de movimentos: <span id="numeroMovimentos">0</span></p>
-      <p>Melhor pontuação: <span id="melhorPontuacao">0</span></p>
-      <p><a href="comojogar.html">Como jogar?</a></p>
+      <p id="mPon">Melhor pontuação: <span id="melhorPontuacao">0</span></p>
+      <p id="nMov">Movimentos: <span id="numeroMovimentos">0</span></p>
+      <p>Clique <a href="comojogar.html">aqui</a> para ver as regras e comandos do jogo.</p>
     </div>
   </body>
   <script type="text/javascript">
@@ -182,7 +177,7 @@
           }
         }
         else{
-          console.log("Clique em Iniciar jogo!");
+          console.log("Jogo não está valendo!");
         }
       }
 

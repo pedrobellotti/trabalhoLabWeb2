@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br" dir="ltr">
+
   <head>
     <meta charset="utf-8">
     <title>Trabalho 2</title>
     <link rel="stylesheet" href="estiloTrabalho2.css" />
   </head>
+
   <body>
     <!--Jogo-->
     <div class="jogo">
@@ -12,8 +14,10 @@
       <div class="lado1"></div>
       <!--Rio-->
       <div class="rio">
+        <p id="textoErroTecla">Tecla inválida!</p>
+        <p id="textoErroJogo">O jogo ainda não foi iniciado!</p>
         <p id="textoEstado">Você perdeu!</p>
-        <p id="textoErro">O barco está no outro lado do rio!</p>
+        <p id="textoErroBarco">O barco está no outro lado do rio!</p>
         <button type="button" id="iniciar">Iniciar jogo</button>
       </div>
       <!--Lado 2 do rio-->
@@ -34,6 +38,7 @@
       <p>Clique <a href="comojogar.html">aqui</a> para ver as regras e comandos do jogo.</p>
     </div>
   </body>
+
   <!--Scripts-->
   <script type="text/javascript">
     /* Elementos do jogo */
@@ -55,8 +60,12 @@
     var jogoValendo = false;
     var mostrarEstado = document.querySelector("#textoEstado");
     mostrarEstado.style.display = "none";
-    var mostrarErro = document.querySelector("#textoErro");
-    mostrarErro.style.display = "none";
+    var mostrarErroBarco = document.querySelector("#textoErroBarco");
+    mostrarErroBarco.style.display = "none";
+    var mostrarErroJogo = document.querySelector("#textoErroJogo");
+    mostrarErroJogo.style.display = "none";
+    var mostrarErroTecla = document.querySelector("#textoErroTecla");
+    mostrarErroTecla.style.display = "none";
     var botaoIniciar = document.querySelector("#iniciar");
     botaoIniciar.addEventListener("click", iniciarJogo);
 
@@ -144,7 +153,7 @@
                   atualizaJogo();
                 }
               }
-              else{erroMover();}
+              else{erroMover(mostrarErroBarco);}
               break;
             case 82:
               //Raposa (r)
@@ -164,7 +173,7 @@
                   atualizaJogo();
                 }
               }
-              else{erroMover();}
+              else{erroMover(mostrarErroBarco);}
               break;
             case 77:
               //Milho (m)
@@ -184,12 +193,14 @@
                   atualizaJogo();
                 }
               }
-              else{erroMover();}
+              else{erroMover(mostrarErroBarco);}
               break;
+            default:
+              erroMover(mostrarErroTecla);
           }
         }
         else{
-          console.log("Jogo não está valendo!");
+          erroMover(mostrarErroJogo);
         }
       }
 
@@ -269,10 +280,10 @@
             }
       }
 
-      //Mostra por 1 segundo o erro se o barco nao estiver na mesma margem do elemento
-      function erroMover(){
-        mostrarErro.style.display = "";
-        setTimeout(function(){ mostrarErro.style.display = "none" }, 1000);
+      //Mostra por 1 segundo a mensagem de erro passada como parametro
+      function erroMover(idErro){
+        idErro.style.display = "";
+        setTimeout(function(){ idErro.style.display = "none" }, 1000);
       }
 
       //Move os elementos que estejam no final para o inicio para comecar um novo jogo
@@ -298,12 +309,10 @@
       function verificaEstado(){
         if(jogoValendo){
           if ((galinha.parentNode == raposa.parentNode || galinha.parentNode == milho.parentNode) && (barco.parentNode != galinha.parentNode)){
-            console.log("Você perdeu!");
             ganhou = false;
             mostraResultado();
           }
           if(galinha.parentNode == final && raposa.parentNode == final && milho.parentNode == final && barco.parentNode == final){
-            console.log("Você venceu!");
             ganhou = true;
             mostraResultado();
           }

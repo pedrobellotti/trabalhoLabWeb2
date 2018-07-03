@@ -88,12 +88,26 @@ p{
   top:185px;
   left:90px;
 }
-#textoErro{
+#textoErroBarco{
   color: #66ffff;
   font-size: 20px;
   position: absolute;
   top:200px;
   left:27px;
+}
+#textoErroJogo{
+  color: red;
+  font-size: 20px;
+  position: absolute;
+  top:50px;
+  left:50px;
+}
+#textoErroTecla{
+  color: red;
+  font-size: 20px;
+  position: absolute;
+  top:50px;
+  left:115px;
 }
 .estatisticas #nMov{
   position: absolute;

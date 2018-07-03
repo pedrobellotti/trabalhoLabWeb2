@@ -36,7 +36,7 @@
 
     //Estatisticas
     var movimentos = 0;
-    var pontuacaoMaxima = 100;
+    var pontuacaoMaxima = Infinity;
     var pontuacao = document.querySelector("#numeroMovimentos");
     var highscore = document.querySelector("#melhorPontuacao");
 
@@ -53,7 +53,6 @@
     //Reinicia estatisticas para comecar um novo jogo
     function reiniciarEstatisticas(){
       movimentos = 0;
-      pontuacaoMaxima = 100;
       ganhou = false;
       atualizaPontuacao();
     }

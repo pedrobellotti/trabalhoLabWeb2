@@ -6,27 +6,37 @@
     <link rel="stylesheet" href="estiloTrabalho2.css" />
   </head>
   <body>
+    <!--Jogo-->
     <div class="jogo">
+      <!--Lado 1 do rio-->
       <div class="lado1"></div>
+      <!--Rio-->
       <div class="rio">
         <p id="textoEstado">Você perdeu!</p>
         <p id="textoErro">O barco está no outro lado do rio!</p>
-        <button type="button" name="button" id="iniciar">Iniciar jogo</button>
+        <button type="button" id="iniciar">Iniciar jogo</button>
       </div>
+      <!--Lado 2 do rio-->
       <div class="lado2"></div>
+      <!--Barco-->
       <div class="barqueiro"><img src="Imagens/barco.png"></div>
+      <!--Galinha-->
       <div class="galinha"><img src="Imagens/galinha.png"></div>
+      <!--Milho-->
       <div class="milho"><img src="Imagens/milho.png"></div>
+      <!--Raposa-->
       <div class="raposa"><img src="Imagens/raposa.png"></div>
     </div>
+    <!--Estatisticas-->
     <div class="estatisticas">
       <p id="mPon">Melhor pontuação: <span id="melhorPontuacao">0</span></p>
       <p id="nMov">Movimentos: <span id="numeroMovimentos">0</span></p>
       <p>Clique <a href="comojogar.html">aqui</a> para ver as regras e comandos do jogo.</p>
     </div>
   </body>
+  <!--Scripts-->
   <script type="text/javascript">
-    //Elementos do jogo
+    /* Elementos do jogo */
     var barco = document.querySelector(".barqueiro");
     var galinha = document.querySelector(".galinha");
     var milho = document.querySelector(".milho");
@@ -34,13 +44,13 @@
     var inicio = document.querySelector(".lado1");
     var final = document.querySelector(".lado2");
 
-    //Estatisticas
+    /* Estatisticas */
     var movimentos = 0;
     var pontuacaoMaxima = Infinity;
     var pontuacao = document.querySelector("#numeroMovimentos");
     var highscore = document.querySelector("#melhorPontuacao");
 
-    //Elementos de controle
+    /* Elementos de controle */
     var ganhou = false;
     var jogoValendo = false;
     var mostrarEstado = document.querySelector("#textoEstado");
@@ -65,12 +75,13 @@
       }
     }
 
-    //Controlando o jogo
+    /* Controlando o jogo */
     function iniciarJogo(){
       jogoValendo = true;
       botaoIniciar.disabled = true;
       botaoIniciar.style.display = "none";
       mostrarEstado.style.display = "none";
+      //Garantindo que as estatisticas estao zeradas e os elementos estao nas posicoes corretas
       reiniciarEstatisticas();
       reiniciarBarco();
       reiniciarPosicao(galinha);
@@ -82,13 +93,15 @@
       inicio.appendChild(milho);
       inicio.appendChild(raposa);
     }
+    //Altera o botao de Iniciar jogo para Reiniciar jogo
     function reiniciarJogo(){
-      jogoValendo = false;
       botaoIniciar.innerHTML = "Reiniciar jogo";
       botaoIniciar.disabled = false;
       botaoIniciar.style.display = "";
     }
+    //Exibe texto com o resultado na tela
     function mostraResultado(){
+      jogoValendo = false;
       mostrarEstado.style.display = "";
       if(ganhou){
         mostrarEstado.innerHTML = "Você venceu!";
@@ -102,7 +115,7 @@
       }
     }
 
-    //Movendo os elementos
+    /* Movendo os elementos */
     window.addEventListener('keydown', teclaPressionada);
     function teclaPressionada(e){
       if(jogoValendo){
@@ -180,7 +193,7 @@
         }
       }
 
-      //Decide de move o elemento do inicio para o fim ou do fim para o inicio
+      //Decide se move o elemento do inicio para o fim ou do fim para o inicio
       function moveElemento(e){
         if(e.parentNode == inicio){
           moveInicio(e);
@@ -197,13 +210,10 @@
         var pos = 0;
         var posFinal = 0;
         var id = setInterval(frame, 5);
-        var direcao = 1; //1=inicio para fim, 0=fim para inicio
         //Move para o fim
-        if(barco.parentNode == inicio)
-        {
+        if(barco.parentNode == inicio){
           pos = 100;
           posFinal = 228;
-          direcao = 1;
           inicio.removeChild(barco);
           final.appendChild(barco);
         }
@@ -211,7 +221,6 @@
         else if (barco.parentNode == final){
           pos = 228;
           posFinal = 100;
-          direcao = 0;
           final.removeChild(barco);
           inicio.appendChild(barco);
         }
@@ -219,11 +228,11 @@
           if (pos == posFinal) {
               clearInterval(id);
             } else {
-                if(direcao == 1){
-                  pos++;
+                if(barco.parentNode == final){
+                  pos++; //Fim para inicio
                 }
-                if(direcao == 0){
-                  pos--;
+                if(barco.parentNode == inicio){
+                  pos--; //Inicio para fim
                 }
                 barco.style.left = pos + 'px';
                 }
@@ -260,35 +269,36 @@
             }
       }
 
-      //Mostra o erro se o barco nao estiver na mesma margem do elemento
+      //Mostra por 1 segundo o erro se o barco nao estiver na mesma margem do elemento
       function erroMover(){
         mostrarErro.style.display = "";
         setTimeout(function(){ mostrarErro.style.display = "none" }, 1000);
       }
 
-      //Move todos os elementos que estejam no final para inicio para comecar novo jogo
+      //Move os elementos que estejam no final para o inicio para comecar um novo jogo
       function reiniciarPosicao(e){
         if(e.parentNode == final){
           moveInicio(e);
         }
       }
+      //Move o barco para o inicio
       function reiniciarBarco(){
         if(barco.parentNode == final){
           moveBarco();
         }
       }
 
-      //Atualiza todos os dados do jogo
+      /* Atualiza os dados do jogo */
       function atualizaJogo(){
         verificaEstado();
         atualizaPontuacao();
       }
 
-      //Checando estado do jogo
+      /* Checando estado do jogo */
       function verificaEstado(){
         if(jogoValendo){
           if ((galinha.parentNode == raposa.parentNode || galinha.parentNode == milho.parentNode) && (barco.parentNode != galinha.parentNode)){
-            console.log("Game over");
+            console.log("Você perdeu!");
             ganhou = false;
             mostraResultado();
           }

@@ -8,6 +8,11 @@ p{
   color: #fff;
   text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
 }
+li{
+  font-size: 16px;
+  color: #fff;
+  text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
 .jogo{
   position: relative;
   display: flex;
@@ -125,4 +130,26 @@ p{
   top: 100px;
   left: 390px;
   border: 1px solid red;
+}
+.regras{
+  width: 300px;
+  text-align: left;
+  position: absolute;
+  top: 330px;
+  border: 1px solid red;
+}
+.comandos{
+  width: 300px;
+  text-align: left;
+  position: absolute;
+  top: 330px;
+  left: 330px;
+  border: 1px solid red;
+}
+.solucao{
+  width: 300px;
+  text-align: left;
+  position: absolute;
+  top: 330px;
+  left: 650px;
 }
